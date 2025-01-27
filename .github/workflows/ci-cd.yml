@@ -118,12 +118,12 @@ jobs:
     - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.PRODUCTION_SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        echo "${{ secrets.STAGING_SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
 
     # Add the server to known hosts
     - name: Add production server to known hosts
-      run: ssh-keyscan -H ${{ secrets.PRODUCTION_SERVER_IP }} >> ~/.ssh/known_hosts
+      run: ssh-keyscan -H ${{ secrets.STAGING_SERVER_IP }} >> ~/.ssh/known_hosts
 
     # Deploy the application
     - name: Deploy to Production Server
@@ -131,9 +131,9 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        ssh ubuntu@${{ secrets.PRODUCTION_SERVER_IP }} <<EOF
-          sudo docker pull sajalmishra786/node-app:latest
-          sudo docker stop node-app || true
-          sudo docker rm node-app || true
-          sudo docker run -d --name node-app -p 3000:3000 sajalmishra786/node-app:latest
+        ssh ubuntu@${{ secrets.STAGING_SERVER_IP }} <<EOF
+          sudo docker pull vedanttyagi18/nodeapp:latest
+          sudo docker stop nodeapp || true
+          sudo docker rm nodeapp || true
+          sudo docker run -d --name nodeapp -p 3000:3000 vedanttyagi18/nodeapp:latest
         EOF
