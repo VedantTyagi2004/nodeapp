@@ -65,7 +65,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: sajalmishra786/node-app:latest
+        tags: vedanttyagi18/nodeapp:latest
 
   deploy-staging:
     name: Deploy to Staging
